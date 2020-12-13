@@ -21,6 +21,6 @@ aoc_get_response <- memoise::memoise(.aoc_get_response)
 aoc_get_data <- function(day, session_cookie = keyring::key_get("RStudio Keyring Secrets", "Advent of Code Session Cookie"),
                          year = 2020) {
   aoc_get_response(day, session_cookie, year) %>%
-    content(encoding = 'UTF-8') %>%
+    content(encoding = "UTF-8") %>%
     readr::read_lines()
 }
