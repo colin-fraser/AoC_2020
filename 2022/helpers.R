@@ -1,30 +1,10 @@
 library(purrr)
 library(rlang)
 
-
-curry <- function(.f) {
-  all_args <- fn_fmls_names(.f)
-  fname <- as.character(substitute(.f))
-  called <- list()
-
-  .curried <- function(...) {
-    largs <- list2(...)
-    called <- c(called, largs)
-    if (length(called) < length(all_args)) {
-      partial(.curried, !!!called)
-    } else {
-      eval(as.call(c(list(.f), called)))
-    }
-  }
-
-  .curried
-}
-
 # advent_of_code_input :: integer -> character
 advent_of_code_input <- function(x) {
   paste0("https://adventofcode.com/2022/day/", x, "/input")
 }
-
 
 as_list_arg_fn <- function(.f) \(x) do.call(.f, x)
 
@@ -52,13 +32,11 @@ fcomp <- partial(compose, .dir = 'forward')
 fmap <- function(.f, ...) \(.x) map(.x, .f, ...)
 freduce <- function(.f, ...) \(.x) reduce(.x, .f, ...)
 
-
-slice <- function(left, right = left) \(x) x[left:right]
-
-sort_decreasing <- \(x) sort(x, decreasing = TRUE)
-
+# enables putting a function on the right side of a pipe,
+# e.g. c(2, 3) |> then(\(x) sum(x))
 then <- function(.x, .f, ...) exec(.f, !!!list2(.x, ...))
 
+# create a string splitting function that splits by `by`
 splitby <- function(by, unlist = FALSE) {
   function(x) {
     out <- strsplit(x, by, perl = TRUE)

@@ -29,7 +29,6 @@ split_n <- function(n) \(x) split(x, ceiling(seq_along(x)/n))
 load_in <- fcomp(splitby("\n", TRUE), split_n(3))
 prio <- fcomp(splitby(""), \(x) Reduce(intersect, x), priority)
 map_prios <- function(x) map_dbl(x, prios)
-# I wish fcomp(load_in, curry(map_dbl), prio, sum)
 
 raw_input |>
   load_in() |>
