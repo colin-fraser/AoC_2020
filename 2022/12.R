@@ -3,17 +3,9 @@ source("2022/helpers.R")
 
 # Parsing -------------------------------------------------------------------------------------
 
-parse_data <- function(x) {
-  x <- x |> then(fcomp(splitby("\n", TRUE), splitby("")))
-  n <- length(x)
-  matrix(unlist(x), byrow = TRUE, nrow = n)
-}
+parse_data <- fcomp(splitby("\n", TRUE), splitby(""), \(x) matrix(unlist(x), byrow = TRUE, nrow = length(x)))
 
-letters_to_numeric <- \(x) apply(x, c(1, 2), \(y) switch(y,
-  S = 1,
-  E = 26,
-  which(letters == y)
-))
+letters_to_numeric <- \(x) apply(x, c(1, 2), \(y) switch(y, S = 1, E = 26, which(letters == y)))
 
 
 # Problem 1 -----------------------------------------------------------------------------------
